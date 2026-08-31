@@ -1,0 +1,29 @@
+relationship 897fe966-875d-4ff0-9c6a-297e5052dedf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.Date
+	toColumn: LocalDateTable_4026d0f1-e741-4779-8cc3-d1063afdb794.Date
+
+relationship AutoDetected_a02e0790-eb30-4d72-af90-f1421362e220
+	fromColumn: FactSales.CustomerID
+	toColumn: DimCustomer.CustomerID
+
+relationship AutoDetected_865a8f6a-3915-46d2-ad3f-8492f672fcb2
+	fromColumn: FactSales.ProductID
+	toColumn: DimProduct.ProductID
+
+relationship AutoDetected_df2675bb-63ca-435e-8e73-57619ae47302
+	fromColumn: FactSales.Region
+	toColumn: DimRegion.Region
+
+relationship AutoDetected_e415f134-584b-43c2-867b-fe00a49b90bb
+	fromColumn: Budget.Region
+	toColumn: DimRegion.Region
+
+relationship 3ae96ab1-e0f7-1739-bd07-271e938004cc
+	fromColumn: FactSales.OrderDate
+	toColumn: DimDate.Date
+
+relationship 7deb2fa7-414b-d346-6784-5b39f0b913a2
+	fromColumn: Budget.Month
+	toColumn: DimDate.Date
+

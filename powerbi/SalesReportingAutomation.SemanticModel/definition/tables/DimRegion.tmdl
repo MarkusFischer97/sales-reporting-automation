@@ -1,0 +1,22 @@
+table DimRegion
+	lineageTag: 455c0917-f2dc-406e-a07c-c5e52eedb475
+
+	column Region
+		dataType: string
+		lineageTag: e6077734-9983-4cf3-8b6f-b5d03e661e1f
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimRegion = m
+		mode: import
+		source =
+				let
+				    Quelle = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8ssvKslQitWJVgpPLS4BM4LzS6FCrokgoVgA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Region = _t]),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(Quelle,{{"Region", type text}})
+				in
+				    #"Geänderter Typ"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,100 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 970.5429998649131,
+            "y": 721.87972417620756
+          },
+          "nodeIndex": "Budget",
+          "nodeLineageTag": "64eb5f7a-bcda-4642-915c-2ee537d5cf7e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 501.48012090756163,
+            "y": 0
+          },
+          "nodeIndex": "DimCustomer",
+          "nodeLineageTag": "c6a3a68a-4807-4387-9864-b12f55c30951",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 504.10161624171013,
+            "y": 693.42184863473233
+          },
+          "nodeIndex": "DimDate",
+          "nodeLineageTag": "a05bc611-b8f8-44a5-8cfd-19d19a46d4aa",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 6.0042739919395558,
+            "y": 282.42795555590465
+          },
+          "nodeIndex": "DimProduct",
+          "nodeLineageTag": "fb96c848-0915-4ac6-a341-496c20db8b3e",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 505.15638225307742,
+            "y": 284.08668793776189
+          },
+          "nodeIndex": "FactSales",
+          "nodeLineageTag": "1207ebbe-923b-4d63-bbc7-e851b3005c05",
+          "size": {
+            "height": 328.68253932027346,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 921.626644732477,
+            "y": 368.23137679145026
+          },
+          "nodeIndex": "DimRegion",
+          "nodeLineageTag": "455c0917-f2dc-406e-a07c-c5e52eedb475",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 5
+        }
+      ],
+      "name": "Alle Tabellen",
+      "zoomValue": 70.955543900968848,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Alle Tabellen",
+  "defaultDiagram": "Alle Tabellen"
+}

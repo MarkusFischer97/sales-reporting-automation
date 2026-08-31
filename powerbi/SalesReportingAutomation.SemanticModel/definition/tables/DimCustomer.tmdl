@@ -1,0 +1,56 @@
+table DimCustomer
+	lineageTag: c6a3a68a-4807-4387-9864-b12f55c30951
+
+	column CustomerID
+		dataType: string
+		lineageTag: e7daefd7-c0ef-44c4-9719-5590a77f2f70
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerName
+		dataType: string
+		lineageTag: 0a45e406-b70f-4cc0-96dc-72096b250619
+		summarizeBy: none
+		sourceColumn: CustomerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: da3480e2-6e8c-4791-90c9-e1522a0899b2
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: b64ef26a-0ef7-4960-8587-85258ad8f641
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCustomer = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\marku\Projects\github\sales-reporting-automation\data\raw\Customers.xlsx"), null, true),
+				    Sheet = Source{[Item="Sheet1", Kind="Sheet"]}[Data],
+				    PromotedHeaders = Table.PromoteHeaders(Sheet, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(PromotedHeaders, {{"CustomerID", type text}, {"CustomerName", type text}, {"Segment", type text}, {"Region", type text}}),
+				    Cleaned = Table.TransformColumns(Typed, {
+				        {"CustomerID", each Text.Trim(_), type text},
+				        {"CustomerName", each Text.Trim(_), type text},
+				        {"Segment", each Text.Trim(_), type text},
+				        {"Region", each Text.Proper(Text.Trim(_)), type text}
+				    })
+				in
+				    Cleaned
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

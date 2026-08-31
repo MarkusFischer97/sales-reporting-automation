@@ -1,0 +1,217 @@
+table FactSales
+	lineageTag: 1207ebbe-923b-4d63-bbc7-e851b3005c05
+
+	measure 'Total Revenue' =
+			
+			SUM(FactSales[Revenue])
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		lineageTag: e72b5c44-ee1d-48ba-b5dd-93a0c9d37b4b
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	measure 'Total Cost' =
+			
+			SUM(FactSales[Cost])
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		lineageTag: 628b31e4-867c-4c3d-a7b0-693e4939f000
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	measure 'Gross Profit' =
+			
+			[Total Revenue] - [Total Cost]
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		lineageTag: e89bbf4c-80ea-4d2a-bac0-8f56ef1de0d2
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	measure 'Gross Margin %' =
+			
+			DIVIDE([Gross Profit], [Total Revenue])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 0047a68f-5484-470f-8395-404f356d7b2e
+
+	measure 'Order Count' =
+			
+			DISTINCTCOUNT(FactSales[OrderID])
+		formatString: 0
+		lineageTag: b27eaaea-ca4a-4be3-bf46-4f2546a37f51
+
+	measure 'Average Order Value' =
+			
+			DIVIDE([Total Revenue], [Order Count])
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		lineageTag: ecb1977d-634e-4ccb-b86f-d68bbbfc8d64
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	measure 'Budget Revenue' =
+			
+			SUM(Budget[BudgetRevenue])
+		formatString: #,0\ "€";-#,0\ "€";#,0\ "€"
+		lineageTag: d0e7a02e-98c7-4a78-9f04-389becf82ff3
+
+	measure 'Revenue Variance' =
+			
+			[Total Revenue] - [Budget Revenue]
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		lineageTag: a8a67469-47b3-4405-80ee-cd7cb1ef5b82
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	measure 'Revenue Variance %' =
+			
+			DIVIDE([Revenue Variance], [Budget Revenue])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 326b40b2-5316-451c-9912-cd750ee7df26
+
+	measure 'Customer Count' =
+			
+			DISTINCTCOUNT(DimCustomer[CustomerID])
+		formatString: 0
+		lineageTag: 4c0a777c-c740-493d-bd6f-7eadb12b65ae
+
+	column OrderID
+		dataType: string
+		lineageTag: 51d45bf3-b356-4e9a-9fbd-113ffa599044
+		summarizeBy: none
+		sourceColumn: OrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b83453d4-e8f0-414b-9777-6b8b4b9dc66c
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CustomerID
+		dataType: string
+		lineageTag: 11ed7d9c-435a-4efe-9241-70368d012b53
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductID
+		dataType: string
+		lineageTag: 0b966046-9f05-457b-8910-0ab72f9aee2c
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 71cf7899-610e-4077-b59e-15c4ac98f0da
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: ad2c11f6-2ab6-4469-beec-656c8486b3b7
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Revenue
+		dataType: double
+		lineageTag: bc9ec3f9-61ca-4ced-aa5a-8af86d5512d6
+		summarizeBy: sum
+		sourceColumn: Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Cost
+		dataType: double
+		lineageTag: e9a62834-612a-4fc5-b2d2-9b4792fd071f
+		summarizeBy: sum
+		sourceColumn: Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GrossProfit
+		dataType: double
+		lineageTag: 4cdf711b-431d-4cfe-86b9-6890286f0347
+		summarizeBy: sum
+		sourceColumn: GrossProfit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactSales = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\marku\Projects\github\sales-reporting-automation\data\raw\sales"),
+				    ExcelFiles = Table.SelectRows(Source, each [Extension] = ".xlsx" and not Text.StartsWith([Name], "~$")),
+				    AddWorkbook = Table.AddColumn(ExcelFiles, "Workbook", each Excel.Workbook([Content], null, true)),
+				    ExpandWorkbook = Table.ExpandTableColumn(AddWorkbook, "Workbook", {"Name", "Data", "Kind"}, {"SheetName", "Data", "Kind"}),
+				    SheetsOnly = Table.SelectRows(ExpandWorkbook, each [Kind] = "Sheet"),
+				    AddPromoted = Table.AddColumn(SheetsOnly, "Promoted", each Table.PromoteHeaders([Data], [PromoteAllScalars = true])),
+				    AddStandardized = Table.AddColumn(
+				        AddPromoted,
+				        "Standardized",
+				        each Table.RenameColumns(
+				            [Promoted],
+				            {
+				                {"Order Date", "OrderDate"},
+				                {"Customer ID", "CustomerID"},
+				                {"Product ID", "ProductID"},
+				                {"Qty", "Quantity"},
+				                {"Sales", "Revenue"}
+				            },
+				            MissingField.Ignore
+				        )
+				    ),
+				    Combined = Table.Combine(AddStandardized[Standardized]),
+				    SelectedColumns = Table.SelectColumns(
+				        Combined,
+				        {"OrderID", "OrderDate", "CustomerID", "ProductID", "Region", "Quantity", "Revenue", "Cost"},
+				        MissingField.UseNull
+				    ),
+				    CleanText = Table.TransformColumns(
+				        SelectedColumns,
+				        {
+				            {"OrderID", each if _ = null then null else Text.Trim(Text.From(_)), type text},
+				            {"CustomerID", each if _ = null then null else Text.Trim(Text.From(_)), type text},
+				            {"ProductID", each if _ = null then null else Text.Trim(Text.From(_)), type text},
+				            {"Region", each if _ = null then null else Text.Proper(Text.Trim(Text.From(_))), type text}
+				        }
+				    ),
+				    Typed = Table.TransformColumnTypes(
+				        CleanText,
+				        {
+				            {"OrderID", type text}, {"OrderDate", type date}, {"CustomerID", type text},
+				            {"ProductID", type text}, {"Region", type text}, {"Quantity", Int64.Type},
+				            {"Revenue", type number}, {"Cost", type number}
+				        }
+				    ),
+				    ValidRows = Table.SelectRows(
+				        Typed,
+				        each [OrderID] <> null and [CustomerID] <> null and [ProductID] <> null
+				            and [OrderDate] <> null and [Quantity] <> null and [Revenue] <> null and [Cost] <> null
+				    ),
+				    Deduplicated = Table.Distinct(ValidRows, {"OrderID"}),
+				    AddGrossProfit = Table.AddColumn(Deduplicated, "GrossProfit", each [Revenue] - [Cost], type number)
+				in
+				    AddGrossProfit
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

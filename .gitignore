@@ -1,0 +1,18 @@
+# Local backups and drafts
+backup/
+
+
+# Power BI temporary/lock files
+*.pbi.lock
+~$*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# OS
+.DS_Store
+Thumbs.db

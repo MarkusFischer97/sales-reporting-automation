@@ -1,0 +1,48 @@
+table Budget
+	lineageTag: 64eb5f7a-bcda-4642-915c-2ee537d5cf7e
+
+	column Month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c8bf11ac-28d1-493b-9544-01f84b2fd865
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Region
+		dataType: string
+		lineageTag: 797b2893-4173-4bf8-a0c5-21c58c55e89e
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column BudgetRevenue
+		dataType: double
+		lineageTag: ffffaf99-f855-4390-a9fe-0ee4c84b5b14
+		summarizeBy: sum
+		sourceColumn: BudgetRevenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Budget = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\marku\Projects\github\sales-reporting-automation\data\raw\Budget.xlsx"), null, true),
+				    Sheet = Source{[Item="Sheet1", Kind="Sheet"]}[Data],
+				    PromotedHeaders = Table.PromoteHeaders(Sheet, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(PromotedHeaders, {{"Month", type date}, {"Region", type text}, {"BudgetRevenue", type number}}),
+				    Cleaned = Table.TransformColumns(Typed, {{"Region", each Text.Proper(Text.Trim(_)), type text}})
+				in
+				    Cleaned
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
