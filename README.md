@@ -2,6 +2,8 @@
 
 A portfolio project demonstrating how a manual, Excel-based sales reporting process can be transformed into a repeatable Power BI reporting workflow.
 
+![Dashboard](screenshots/screenshot_dashboard.png)
+
 ## Business Problem
 
 A fictional mid-sized manufacturing company receives monthly sales data as Excel exports.
@@ -50,9 +52,13 @@ Interactive filters allow the user to analyze the results by:
 - Product Category
 - Customer Segment
 
+![Dashboard with filters](screenshots/screenshot_dashboard_filtered.png)
+
 ## Data Model
 
 The Power BI model follows a simple star-schema approach.
+
+![Power BI data model](screenshots/model_view.png)
 
 ### Fact tables
 
@@ -80,6 +86,8 @@ The transformation layer handles typical issues found in recurring Excel-based r
 - handling missing values
 - removing duplicate records
 - applying consistent data types
+
+![Power Query transformation](screenshots/screenshot_factSales.png)
 
 ## Key Metrics
 
