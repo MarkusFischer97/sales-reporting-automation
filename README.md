@@ -145,15 +145,15 @@ sales-reporting-automation/
 │
 ├── README.md
 └── .gitignore
-
+```
 
 ## Project Status
 
-The first management dashboard page is implemented.
+The current portfolio version implements a complete management reporting workflow from recurring Excel inputs through Power Query transformations, data modeling, DAX measures, and interactive Power BI reporting.
 
-Future improvements may include:
+The project is considered complete for its current scope. Possible future extensions include:
 
-- a detailed sales analysis page
+- a dedicated detailed sales analysis page
 - additional management KPIs
 - further automation of the data ingestion process
-- optional Python/SQL integration where it provides a meaningful business benefit
+- optional Python or SQL integration where it provides a meaningful business benefit
